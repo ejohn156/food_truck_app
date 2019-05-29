@@ -1,1 +1,0 @@
-# food_truck_app
