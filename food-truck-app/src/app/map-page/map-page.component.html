@@ -1,6 +1,16 @@
+<button routerLink="/favorites">Go To Favorites Page</button>
 <h1>
-  map-page works!
+  Map Page
 </h1>
 <br>
-<button routerLink="/truck">Go To Truck Page</button>
-<button routerLink="/favorites">Go To Favorites Page</button>
+<ul *ngFor="let truck of trucks">
+  <button routerLink="/truck/{{truck.id}}">
+      {{truck.name }}
+  </button>
+</ul>
+<br>
+<p>
+  Testing Store
+  Favorites: {{favorites.length}}
+</p>
+

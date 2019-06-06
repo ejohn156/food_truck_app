@@ -6,7 +6,7 @@ import {TruckPageComponent} from './truck-page/truck-page.component'
 
 const routes: Routes = [
   { path: 'map', component: MapPageComponent },
-  { path: 'truck', component: TruckPageComponent },
+  { path: 'truck/:id', component: TruckPageComponent },
   { path: 'favorites', component: FavoritesPageComponent },
   { path: '',
     redirectTo: '/map',

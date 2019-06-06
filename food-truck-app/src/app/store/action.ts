@@ -1,18 +1,18 @@
 import { Action } from '@ngrx/store'
 
 export enum FavoriteActionTypes {  
-    ADD_TRUCK = 'ADD_TRUCK',
-    REMOVE_TRUCK = 'REMOVE_TRUCK'
+    ADD_FAVORITE = 'ADD_FAVORITE',
+    REMOVE_FAVORITE = 'REMOVE_FAVORITE'
 }
 
-export class AddTruck implements Action {  
-    readonly type = FavoriteActionTypes.ADD_TRUCK
+export class AddFavorite implements Action {  
+    readonly type = FavoriteActionTypes.ADD_FAVORITE
     constructor(public payload: any){}
 }
 
-export class RemoveTruck implements Action {  
-    readonly type = FavoriteActionTypes.REMOVE_TRUCK
+export class RemoveFavorite implements Action {  
+    readonly type = FavoriteActionTypes.REMOVE_FAVORITE
     constructor(public payload: any){}
 }
 
-export type FavoriteActions = AddTruck | RemoveTruck
+export type FavoriteActions = AddFavorite | RemoveFavorite

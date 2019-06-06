@@ -1,12 +1,12 @@
-import { FavoriteActionTypes, FavoriteActions } from "./action";
+import { TruckActionTypes, TruckActions } from "./truckAction";
 
 export let initialState = []
 
-export function reducer(state=initialState, action: FavoriteActions) {  
+export function truckReducer(state=initialState, action: TruckActions) {  
     switch (action.type) {
-        case FavoriteActionTypes.ADD_FAVORITE: 
+        case TruckActionTypes.ADD_TRUCK: 
             return [...state, action.payload]
-        case FavoriteActionTypes.REMOVE_FAVORITE: 
+        case TruckActionTypes.REMOVE_TRUCK: 
             let product = action.payload        
             return state.filter((el)=>el.id != product.id)
         default: 

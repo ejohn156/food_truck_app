@@ -1,4 +1,4 @@
-export class Favorite {  
+export class Truck {  
     id: number
     name: string
     price: string
