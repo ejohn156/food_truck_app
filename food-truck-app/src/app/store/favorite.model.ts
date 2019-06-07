@@ -1,5 +1,5 @@
 export class Favorite {  
-    id: number
+    id: string
     name: string
     price: string
     rating: number

@@ -6,4 +6,10 @@
 </ul>
 <br>
 <button routerLink="/">Return To Map</button>
-<button ng-click="makeFavorite()">Favorite</button>
+<p>{{isFavorite}}</p>
+<div *ngIf="!isFavorite">
+<button (click)="favoriteBtn()" routerLink="/favorites">Favorite</button>
+</div>
+<div *ngIf="isFavorite">
+  <button (click)="unfavorite()" routerLink="/map">unfavorite</button>
+  </div>
