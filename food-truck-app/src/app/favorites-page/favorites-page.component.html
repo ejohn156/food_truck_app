@@ -1,5 +1,11 @@
+<button routerLink="/">Return To Map</button>
 <h1>
-  favorites-page works!
+  Favorites Page
 </h1>
 <br>
-<button routerLink="/">Return To Map</button>
+<ul *ngFor="let favorite of favorites">
+  <button routerLink="/truck/{{favorite.id}}">
+      {{favorite.name}}
+  </button>
+  <button (click)="unfavorite(favorite)">Unfavorite</button>
+</ul>

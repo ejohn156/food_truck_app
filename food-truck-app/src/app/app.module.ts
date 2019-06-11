@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { MapPageComponent } from './map-page/map-page.component';
 import { FavoritesPageComponent } from './favorites-page/favorites-page.component';
 import { TruckPageComponent } from './truck-page/truck-page.component';
+import { FormsModule } from '@angular/forms'
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { TruckPageComponent } from './truck-page/truck-page.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    FormsModule,
     StoreModule.forRoot({favorites: reducer,trucks: truckReducer}),
     // StoreModule.forRoot({trucks: truckReducer})
   ],

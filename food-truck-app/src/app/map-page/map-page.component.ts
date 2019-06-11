@@ -4,6 +4,8 @@ import { Store, select } from '@ngrx/store';
 import { Truck } from '../store/truck.model';
 import * as TruckStore from "./../store/truckAction"
 import { AddFavorite } from '../store/action';
+import {NgForm} from '@angular/forms';
+import {Search} from '../search'
 
 @Component({
   selector: 'app-map-page',
@@ -12,33 +14,76 @@ import { AddFavorite } from '../store/action';
 })
 export class MapPageComponent implements AfterViewInit, OnInit {
 
+  priceValues =["$", "$$", "$$$", "$$$$"]
+  ratingValues =[0,0.5,1,1.5,2,2.5,3,3.5,4,4.5,5]
+  searchModel = new Search("","")
   favorites: Array<any>
   trucks: Array<any>
+  searchEntry: String
+  searchTypes = ["name", "cuisine", "all"]
   constructor(private store: Store<any>) { }
   public truckID: String
   ngOnInit() {
+    this.searchModel.type = "name"
     this.store.select('favorites').subscribe((state => this.favorites = state))
     this.store.select('trucks').subscribe((state => this.trucks = state))
     if(this.trucks.length === 0){
-    this.getTruckData()
+    this.getTruckData("all", null)
     }
   }
   ngAfterViewInit(){
     //console.log("after view init")
   }
-  getTruckData() {
-    axios.get(`${'https://cors-anywhere.herokuapp.com/'}https://api.yelp.com/v3/businesses/search?`, {
+  
+  getTruckData(type, entry) {
+    var searchParams
+    var queryUrl
+    switch (type) {
+      case "all" :{
+        queryUrl = "https://api.yelp.com/v3/businesses/search?"
+        searchParams = {
+          term: "food trucks",
+          //categories: 'foodtrucks',
+          location: "Charlotte, NC",
+          limit: 50
+        }
+        break
+      }
+      case "name": {
+        queryUrl = "https://api.yelp.com/v3/businesses/search"
+        console.log("name search has been run")
+        console.log(entry)
+        searchParams = {
+          term: entry,
+          categories: "foodtrucks",
+          location: "Charlotte, NC",
+          limit: 1
+        }
+        break
+      }
+      case "cuisine": {
+        queryUrl = "https://api.yelp.com/v3/businesses/search?"
+        console.log("cuisine search has been run")
+        searchParams = {
+          term: entry,
+          categories: "foodtrucks",
+          location: "Charlotte, NC",
+          limit: 50
+        }
+        break
+      }
+
+    }
+    axios.get(`${'https://cors-anywhere.herokuapp.com/'}` + queryUrl, {
       headers: {
         Authorization: `Bearer f-JYAyEnLLbaO2pkyaLg8WQqcq7puzzchmTNmHC-2fVLhWXoMszhCZhRSv-8G50R0zNcB6rfc2kX30bxNRYUQPfg_dh1btpOlI7O-enve-bjnkGje7tWQ10GhS35XHYx`
       },
-      params: {
-        term: 'food truck',
-        location: "Charlotte, NC"
-      }
+      params: searchParams
+      
     })
       .then((res) => {
         var results = res.data.businesses
-        //console.log(results)
+        console.log(results)
         results.map(result => {
           var newTruck = new Truck
           newTruck.id = result.id
@@ -46,7 +91,7 @@ export class MapPageComponent implements AfterViewInit, OnInit {
           newTruck.price = result.price
           newTruck.rating = result.rating
           newTruck.categories = result.categories
-          newTruck.website = result.website
+          newTruck.website = result.url
           this.addTruck(newTruck)
         })
       })
@@ -59,5 +104,19 @@ export class MapPageComponent implements AfterViewInit, OnInit {
   }
   removeTrucks(truck) {
     this.store.dispatch(new TruckStore.RemoveTruck(truck))
+  }
+  clearTrucks(){
+    this.trucks.map(truck => this.removeTrucks(truck))
+  }
+  filter(type, term){
+    console.log("filter type: " + type + "\nfilter term: " + term)
+  }
+  onSubmit(f: NgForm){
+    this.clearTrucks()
+    console.log(this.searchModel.entry)
+    this.getTruckData(this.searchModel.type, this.searchModel.entry)
+  }
+  onChangeType(type: any){
+    this.searchModel.type = type
   }
 }

@@ -6,7 +6,6 @@
 </ul>
 <br>
 <button routerLink="/">Return To Map</button>
-<p>{{isFavorite}}</p>
 <div *ngIf="!isFavorite">
 <button (click)="favoriteBtn()" routerLink="/favorites">Favorite</button>
 </div>

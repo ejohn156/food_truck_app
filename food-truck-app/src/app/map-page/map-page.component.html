@@ -9,8 +9,21 @@
   </button>
 </ul>
 <br>
-<p>
-  Testing Store
-  Favorites: {{favorites.length}}
-</p>
-
+<h3>Search</h3>
+<form #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate>
+<select class="form-control" (change)=onChangeType($event.target.value)>
+  <option *ngFor="let type of searchTypes">{{type}}</option>
+</select>
+<input type="text" name="entry" [(ngModel)]="searchModel.entry">
+<input type="submit">
+</form>
+<h3>Filter</h3>
+<form>
+  <select class="form-control" (change)=onChangeType($event.target.value)>
+    <option *ngFor="let option of ratingValues">{{option}}</option>
+  </select>
+  <div *ngFor="let price of priceValues">
+  <input type="radio" value="price">{{price}}
+</div>
+<input type="submit">
+</form>

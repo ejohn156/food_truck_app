@@ -10,6 +10,7 @@ import { Favorite } from '../store/favorite.model';
   styleUrls: ['./truck-page.component.css']
 })
 export class TruckPageComponent implements OnInit, OnChanges {
+  
   private id: string
   private name: string
   private rating: number
@@ -74,9 +75,6 @@ export class TruckPageComponent implements OnInit, OnChanges {
       if (favorite.id === this.id) {
         this.isFavorite = true
         
-      }
-      else {
-        this.isFavorite = false
       }
     })
   }
