@@ -11,6 +11,7 @@ import { FavoritesPageComponent } from './favorites-page/favorites-page.componen
 import { TruckPageComponent } from './truck-page/truck-page.component';
 import { FormsModule } from '@angular/forms'
 import {filterArrayReducer} from './store/filterArrayReducer'
+import {isFilteredReducer} from './store/isFilteredReducer'
 
 @NgModule({
   declarations: [
@@ -24,7 +25,13 @@ import {filterArrayReducer} from './store/filterArrayReducer'
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    StoreModule.forRoot({favorites: reducer,trucks: truckReducer, filter: filterReducer, filterArray: filterArrayReducer}),
+    StoreModule.forRoot({
+      favorites: reducer,
+      trucks: truckReducer, 
+      filter: filterReducer, 
+      filterArray: filterArrayReducer,
+      isFiltered: isFilteredReducer
+    }),
     // StoreModule.forRoot({trucks: truckReducer})
   ],
   providers: [],

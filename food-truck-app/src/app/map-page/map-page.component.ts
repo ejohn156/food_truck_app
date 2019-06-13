@@ -11,6 +11,8 @@ import { Search } from '../search'
 import { isUndefined, isString } from 'util';
 import { FilterArray } from '../store/filterArray.model';
 import * as FilterArrayStore from "./../store/filterArrayAction"
+import {isFiltered} from '../store/isFiltered.model'
+import * as IsFilteredStore from './../store/isFilteredAction'
 
 @Component({
   selector: 'app-map-page',
@@ -19,7 +21,8 @@ import * as FilterArrayStore from "./../store/filterArrayAction"
 })
 export class MapPageComponent implements AfterViewInit, OnInit {
 
-  isFiltered = false
+  filterChecker: Array<any>
+  isFiltered: Boolean
   priceValues: Array<any>
   ratingValues: Array<any>
   searchModel = new Search("", "")
@@ -39,9 +42,15 @@ export class MapPageComponent implements AfterViewInit, OnInit {
     this.store.select('trucks').subscribe((state => this.trucks = state))
     this.store.select('filter').subscribe((state => this.filterState = state))
     this.store.select('filterArray').subscribe((state => this.filterArrayState = state))
+    this.store.select('isFiltered').subscribe((state => this.filterChecker = state))
     this.setFilter()
     this.priceValues = this.filterArrayState[0].price
     this.ratingValues = this.filterArrayState[0].rating
+    this.isFiltered = this.filterChecker[0].value
+    if(this.isFiltered == true){
+      this.getFilteredTrucks()
+    }
+    console.log(this.filterChecker)
     if (this.trucks.length === 0) {
       this.getTruckData("all", null)
     }
@@ -132,9 +141,10 @@ export class MapPageComponent implements AfterViewInit, OnInit {
         console.log('error')
       })
   }
-  updateFilterState(filter, filterArray) {
+  updateFilterState(filter, filterArray, filterChecker) {
     this.store.dispatch(new FilterStore.AddFilter(filter))
     this.store.dispatch(new FilterArrayStore.AddFilterArray(filterArray))
+    this.store.dispatch(new IsFilteredStore.AddIsFiltered(filterChecker))
   }
   clearFilterState() {
     this.filterState.map(filter => this.removeFilterState(filter))
@@ -171,10 +181,35 @@ export class MapPageComponent implements AfterViewInit, OnInit {
     this.filterState[0].rating = rating
   }
   updateFilter(filter: NgForm) {
+    this.filterChecker[0].value = true
+    this.isFiltered = this.filterChecker[0]
+
+    this.getFilteredTrucks()
+  }
+  priceFilterChange(price: any){
+    console.log(price)
+    this.filterState[0].price = price
+  }
+  clearFilter() {
+    this.filterChecker[0].value = false
+    this.isFiltered = this.filterChecker[0]
+    console.log("clear filter: " + this.isFiltered)
+  }
+  setFilter() {
+    var newFilter = new Filter
+    newFilter.price = null
+    newFilter.rating = null
+    
+    var newFilterArray = new FilterArray
+    newFilterArray.price = []
+    newFilterArray.rating = []
+
+    var filterChecker = new isFiltered
+    filterChecker.value = false
+    this.updateFilterState(newFilter, newFilterArray, filterChecker)
+  }
+  getFilteredTrucks(){
     this.filteredTrucks = []
-    console.log(this.filterState[0])
-    this.isFiltered = true
-    console.log("update filter: " + this.isFiltered)
     this.trucks.map(truck =>{
       if((truck.price == this.filterState[0].price && truck.rating == this.filterState[0].rating))
       {this.filteredTrucks.push(truck)}
@@ -189,24 +224,5 @@ export class MapPageComponent implements AfterViewInit, OnInit {
       }
       })
       console.log(this.filteredTrucks.length)
-  }
-  priceFilterChange(price: any){
-    console.log(price)
-    this.filterState[0].price = price
-  }
-  clearFilter() {
-    this.isFiltered = false
-    console.log("clear filter: " + this.isFiltered)
-  }
-  setFilter() {
-    var newFilter = new Filter
-    newFilter.price = null
-    newFilter.rating = null
-    
-    var newFilterArray = new FilterArray
-    newFilterArray.price = []
-    newFilterArray.rating = []
-
-    this.updateFilterState(newFilter, newFilterArray)
   }
 }
