@@ -3,27 +3,43 @@
   Map Page
 </h1>
 <br>
-<ul *ngFor="let truck of trucks">
-  <button routerLink="/truck/{{truck.id}}">
+<div *ngIf="!isFiltered; then unfilteredList else filteredList"></div>
+
+<ng-template #unfilteredList>
+  <h4>Unfiltered</h4>
+  <ul *ngFor="let truck of trucks">
+    <button routerLink="/truck/{{truck.id}}" >
       {{truck.name }}
-  </button>
-</ul>
+    </button>
+  </ul>
+</ng-template>
+
+<ng-template #filteredList>
+  <h4>Filtered</h4>
+  <ul *ngFor="let truck of filteredTrucks">
+    <button routerLink="/truck/{{truck.id}}">
+      {{truck.name }}
+    </button>
+  </ul>
+</ng-template>
 <br>
 <h3>Search</h3>
 <form #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate>
-<select class="form-control" (change)=onChangeType($event.target.value)>
-  <option *ngFor="let type of searchTypes">{{type}}</option>
-</select>
-<input type="text" name="entry" [(ngModel)]="searchModel.entry">
-<input type="submit">
-</form>
-<h3>Filter</h3>
-<form>
   <select class="form-control" (change)=onChangeType($event.target.value)>
+    <option *ngFor="let type of searchTypes">{{type}}</option>
+  </select>
+  <input type="text" name="entry" [(ngModel)]="searchModel.entry">
+  <input type="submit">
+</form>
+
+<h3>Filter</h3>
+<form #filter="ngForm" (ngSubmit)="updateFilter(f)" novalidate>
+  <select name="rating" class="form-control" (change)=onChangeRatingFilter($event.target.value)>
     <option *ngFor="let option of ratingValues">{{option}}</option>
   </select>
   <div *ngFor="let price of priceValues">
-  <input type="radio" value="price">{{price}}
-</div>
-<input type="submit">
+    <input name="price" type="radio" value={{price}} (change)="priceFilterChange($event.target.value)">{{price}}
+  </div>
+  <input type="submit">
 </form>
+<button (click)="clearFilter()">Clear Filter</button>
