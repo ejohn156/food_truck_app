@@ -17,7 +17,6 @@ export class TruckPageComponent implements OnInit, OnChanges {
   private categories: Array<any>
   private price: string
   private website: string
-  selectedTruck: Array<any>
   private isFavorite: Boolean
   favorites: Array<any>
   trucks: Array<any>
@@ -32,10 +31,7 @@ export class TruckPageComponent implements OnInit, OnChanges {
     this.store.select('favorites').subscribe((state => this.favorites = state))
     this.store.select('trucks').subscribe((state => this.trucks = state))
     this.getTruckInfo(this.id)
-    if(this.isFavorite === false){
-      console.log("is a favorite")
-      this.getFavInfo(this.id)
-    }
+    this.getFavInfo(this.id)
     this.checkFavoriteStatus()
   }
 
@@ -52,6 +48,7 @@ export class TruckPageComponent implements OnInit, OnChanges {
         this.isFavorite = false
       }
     })
+  
   }
   getFavInfo(id) {
     this.favorites.map(favorite => {
