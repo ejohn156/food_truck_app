@@ -17,7 +17,8 @@ export class TruckPageComponent implements OnInit, OnChanges {
   private categories: Array<any>
   private price: string
   private website: string
-  private isFavorite = false
+  selectedTruck: Array<any>
+  private isFavorite: Boolean
   favorites: Array<any>
   trucks: Array<any>
   constructor(private route: ActivatedRoute, private store: Store<any>) {
@@ -31,6 +32,10 @@ export class TruckPageComponent implements OnInit, OnChanges {
     this.store.select('favorites').subscribe((state => this.favorites = state))
     this.store.select('trucks').subscribe((state => this.trucks = state))
     this.getTruckInfo(this.id)
+    if(this.isFavorite === false){
+      console.log("is a favorite")
+      this.getFavInfo(this.id)
+    }
     this.checkFavoriteStatus()
   }
 
@@ -44,6 +49,21 @@ export class TruckPageComponent implements OnInit, OnChanges {
         this.price = truck.price
         this.website = truck.website
         this.categories = truck.categories
+        this.isFavorite = false
+      }
+    })
+  }
+  getFavInfo(id) {
+    this.favorites.map(favorite => {
+      if (favorite.id === this.id) {
+        console.log(favorite)
+        this.id = favorite.id
+        this.name = favorite.name
+        this.rating = favorite.rating
+        this.price = favorite.price
+        this.website = favorite.website
+        this.categories = favorite.categories
+        this.isFavorite = false
       }
     })
   }
