@@ -1,0 +1,29 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Food Truck Finder</a>
+    
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <div *ngIf="currentPage == 'map'">
+        <li class="nav-item active">
+          <a class="nav-link" routerLink="/favorites">Favorites <span class="sr-only">(current)</span></a>
+        </li>
+      </div>
+      <div *ngIf="currentPage == 'favorites'">
+          <li class="nav-item active">
+              <a class="nav-link" routerLink="/map">Map <span class="sr-only">(current)</span></a>
+            </li>
+      </div>
+      <div *ngIf="currentPage == 'truck'">
+          <li class="nav-item active">
+              <a class="nav-link" routerLink="/map">Map <span class="sr-only">(current)</span></a>
+            </li>
+          </div>
+          <div *ngIf="currentPage == 'truck'">
+            <li class="nav-item active">
+                <a class="nav-link" routerLink="/favorites">Favorites <span class="sr-only">(current)</span></a>
+            </li>
+          </div>
+      </ul>
+    </div>
+  </nav>
