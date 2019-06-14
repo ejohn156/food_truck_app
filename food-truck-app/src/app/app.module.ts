@@ -11,7 +11,10 @@ import { FavoritesPageComponent } from './favorites-page/favorites-page.componen
 import { TruckPageComponent } from './truck-page/truck-page.component';
 import { FormsModule } from '@angular/forms'
 import {filterArrayReducer} from './store/filterArrayReducer'
-import {isFilteredReducer} from './store/isFilteredReducer'
+import {isFilteredReducer} from './store/isFilteredReducer';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NavbarComponent } from './components/navbar/navbar.component'
+
 
 @NgModule({
   declarations: [
@@ -19,6 +22,7 @@ import {isFilteredReducer} from './store/isFilteredReducer'
     MapPageComponent,
     FavoritesPageComponent,
     TruckPageComponent,
+    NavbarComponent,
 
   ],
   imports: [
@@ -32,6 +36,7 @@ import {isFilteredReducer} from './store/isFilteredReducer'
       filterArray: filterArrayReducer,
       isFiltered: isFilteredReducer
     }),
+    BrowserAnimationsModule,
     // StoreModule.forRoot({trucks: truckReducer})
   ],
   providers: [],

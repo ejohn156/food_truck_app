@@ -17,7 +17,7 @@ import * as IsFilteredStore from './../store/isFilteredAction'
 @Component({
   selector: 'app-map-page',
   templateUrl: './map-page.component.html',
-  styleUrls: ['./map-page.component.css']
+  styleUrls: ['./map-page.component.css'],
 })
 export class MapPageComponent implements AfterViewInit, OnInit {
 
