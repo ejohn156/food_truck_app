@@ -32,7 +32,7 @@ export class MapPageComponent implements AfterViewInit, OnInit {
   trucks: Array<any>
   filteredTrucks= []
   searchEntry: String
-  searchTypes = ["name", "cuisine", "all"]
+  searchTypes = ["search", "all"]
   constructor(private store: Store<any>) { }
   public truckID: String
   ngOnInit() {
@@ -73,19 +73,7 @@ export class MapPageComponent implements AfterViewInit, OnInit {
         }
         break
       }
-      case "name": {
-        queryUrl = "https://api.yelp.com/v3/businesses/search"
-        console.log("name search has been run")
-        console.log(entry)
-        searchParams = {
-          term: entry,
-          categories: "foodtrucks",
-          location: "Charlotte, NC",
-          limit: 1
-        }
-        break
-      }
-      case "cuisine": {
+      case "search": {
         queryUrl = "https://api.yelp.com/v3/businesses/search?"
         console.log("cuisine search has been run")
         searchParams = {
@@ -106,11 +94,13 @@ export class MapPageComponent implements AfterViewInit, OnInit {
 
     })
       .then((res) => {
+        var matchFound = false
+        
         this.ratingValues = []
         this.priceValues = []
         var results = res.data.businesses
-        console.log(results)
         results.map(result => {
+          if(matchFound == false){
           var newTruck = new Truck
           newTruck.id = result.id
           newTruck.name = result.name
@@ -125,6 +115,10 @@ export class MapPageComponent implements AfterViewInit, OnInit {
           if (!this.ratingValues.includes(newTruck.rating)) {
             this.ratingValues.push(newTruck.rating)
           }
+          if(entry === newTruck.name){
+            matchFound = true
+          }
+      }
         })
         this.ratingValues.sort()
         this.ratingValues.push("All")
@@ -135,7 +129,8 @@ export class MapPageComponent implements AfterViewInit, OnInit {
         this.filterArrayState[0].price = this.priceValues
         this.filterState[0].rating = this.ratingValues[0]
         this.filterState[0].price = this.priceValues[0]
-        console.log(this.filterArrayState)
+
+        
       })
       .catch((err) => {
         console.log('error')
@@ -168,7 +163,11 @@ export class MapPageComponent implements AfterViewInit, OnInit {
   onSubmit(f: NgForm) {
     this.clearTrucks()
     console.log(this.searchModel.entry)
-    this.getTruckData(this.searchModel.type, this.searchModel.entry)
+    this.getTruckData("search", this.searchModel.entry)
+  }
+  resetSearch(){
+    this.clearTrucks()
+    this.getTruckData("all", this.searchModel.entry)
   }
   onChangeType(type: any) {
     this.searchModel.type = type
@@ -193,6 +192,7 @@ export class MapPageComponent implements AfterViewInit, OnInit {
   clearFilter() {
     this.filterChecker[0].value = false
     this.isFiltered = this.filterChecker[0]
+    this.filteredTrucks = this.trucks
     console.log("clear filter: " + this.isFiltered)
   }
   setFilter() {

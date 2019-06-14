@@ -1,0 +1,5 @@
+.scroll {
+    max-height: 25em;
+    overflow-y: auto;
+    width: 100%;
+}

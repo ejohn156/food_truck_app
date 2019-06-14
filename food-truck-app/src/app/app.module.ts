@@ -13,7 +13,9 @@ import { FormsModule } from '@angular/forms'
 import {filterArrayReducer} from './store/filterArrayReducer'
 import {isFilteredReducer} from './store/isFilteredReducer';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NavbarComponent } from './components/navbar/navbar.component'
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { ResultsListComponent } from './components/results-list/results-list.component';
+import { FormSFComponent } from './components/form-sf/form-sf.component'
 
 
 @NgModule({
@@ -23,6 +25,8 @@ import { NavbarComponent } from './components/navbar/navbar.component'
     FavoritesPageComponent,
     TruckPageComponent,
     NavbarComponent,
+    ResultsListComponent,
+    FormSFComponent,
 
   ],
   imports: [
