@@ -5,4 +5,6 @@ export class Truck {
     rating: number
     website: string
     categories: [Object]
+    lat: number
+    long: number
 }

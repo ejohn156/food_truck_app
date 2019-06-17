@@ -13,6 +13,7 @@ import { FilterArray } from '../store/filterArray.model';
 import * as FilterArrayStore from "./../store/filterArrayAction"
 import { isFiltered } from '../store/isFiltered.model'
 import * as IsFilteredStore from './../store/isFilteredAction'
+import {MapboxService} from '../mapbox.service'
 
 @Component({
   selector: 'app-map-page',
@@ -33,8 +34,11 @@ export class MapPageComponent implements AfterViewInit, OnInit {
   filteredTrucks = []
   searchEntry: String
   searchTypes = ["search", "all"]
+  filteredMarkers: Array<any>;
+  unfilteredMarkers: Array<any>
   constructor(private store: Store<any>) { }
   public truckID: String
+  isLoaded = false
   ngOnInit() {
     this.searchModel.type = "name"
 
@@ -108,6 +112,8 @@ export class MapPageComponent implements AfterViewInit, OnInit {
             newTruck.rating = result.rating
             newTruck.categories = result.categories
             newTruck.website = result.url
+            newTruck.lat = result.coordinates.latitude
+            newTruck.long = result.coordinates.longitude
             this.addTruck(newTruck)
             if (!this.priceValues.includes(newTruck.price) && !isUndefined(newTruck.price)) {
               this.priceValues.push(newTruck.price)
@@ -133,10 +139,12 @@ export class MapPageComponent implements AfterViewInit, OnInit {
         this.trucks.map(truck => {
           this.filteredTrucks.push(truck)
         })
-
+        const unfilteredMarkers = MapboxService.getMarkers(this.trucks);
+        this.filteredMarkers = MapboxService.getMarkers(this.filteredTrucks)
+        this.isLoaded = true
       })
       .catch((err) => {
-        console.log('error')
+        console.log(err)
       })
   }
   updateFilterState(filter, filterArray, filterChecker) {
@@ -225,6 +233,6 @@ export class MapPageComponent implements AfterViewInit, OnInit {
         this.filteredTrucks.push(truck)
       }
     })
-    console.log(this.filteredTrucks.length)
+    this.filteredMarkers = MapboxService.getMarkers(this.filteredTrucks);
   }
 }
