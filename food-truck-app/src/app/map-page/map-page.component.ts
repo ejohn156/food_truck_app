@@ -11,7 +11,7 @@ import { Search } from '../search'
 import { isUndefined, isString } from 'util';
 import { FilterArray } from '../store/filterArray.model';
 import * as FilterArrayStore from "./../store/filterArrayAction"
-import {isFiltered} from '../store/isFiltered.model'
+import { isFiltered } from '../store/isFiltered.model'
 import * as IsFilteredStore from './../store/isFilteredAction'
 
 @Component({
@@ -30,14 +30,14 @@ export class MapPageComponent implements AfterViewInit, OnInit {
   filterArrayState: Array<any>
   favorites: Array<any>
   trucks: Array<any>
-  filteredTrucks= []
+  filteredTrucks = []
   searchEntry: String
   searchTypes = ["search", "all"]
   constructor(private store: Store<any>) { }
   public truckID: String
   ngOnInit() {
     this.searchModel.type = "name"
-    
+
     this.store.select('favorites').subscribe((state => this.favorites = state))
     this.store.select('trucks').subscribe((state => this.trucks = state))
     this.store.select('filter').subscribe((state => this.filterState = state))
@@ -47,7 +47,7 @@ export class MapPageComponent implements AfterViewInit, OnInit {
     this.priceValues = this.filterArrayState[0].price
     this.ratingValues = this.filterArrayState[0].rating
     this.isFiltered = this.filterChecker[0].value
-    if(this.isFiltered == true){
+    if (this.isFiltered == true) {
       this.getFilteredTrucks()
     }
     console.log(this.filterChecker)
@@ -95,30 +95,30 @@ export class MapPageComponent implements AfterViewInit, OnInit {
     })
       .then((res) => {
         var matchFound = false
-        
+
         this.ratingValues = []
         this.priceValues = []
         var results = res.data.businesses
         results.map(result => {
-          if(matchFound == false){
-          var newTruck = new Truck
-          newTruck.id = result.id
-          newTruck.name = result.name
-          newTruck.price = result.price
-          newTruck.rating = result.rating
-          newTruck.categories = result.categories
-          newTruck.website = result.url
-          this.addTruck(newTruck)
-          if (!this.priceValues.includes(newTruck.price) && !isUndefined(newTruck.price)) {
-            this.priceValues.push(newTruck.price)
+          if (matchFound == false) {
+            var newTruck = new Truck
+            newTruck.id = result.id
+            newTruck.name = result.name
+            newTruck.price = result.price
+            newTruck.rating = result.rating
+            newTruck.categories = result.categories
+            newTruck.website = result.url
+            this.addTruck(newTruck)
+            if (!this.priceValues.includes(newTruck.price) && !isUndefined(newTruck.price)) {
+              this.priceValues.push(newTruck.price)
+            }
+            if (!this.ratingValues.includes(newTruck.rating)) {
+              this.ratingValues.push(newTruck.rating)
+            }
+            if (entry === newTruck.name) {
+              matchFound = true
+            }
           }
-          if (!this.ratingValues.includes(newTruck.rating)) {
-            this.ratingValues.push(newTruck.rating)
-          }
-          if(entry === newTruck.name){
-            matchFound = true
-          }
-      }
         })
         this.ratingValues.sort()
         this.ratingValues.push("All")
@@ -129,8 +129,11 @@ export class MapPageComponent implements AfterViewInit, OnInit {
         this.filterArrayState[0].price = this.priceValues
         this.filterState[0].rating = this.ratingValues[0]
         this.filterState[0].price = this.priceValues[0]
+        this.filteredTrucks = []
+        this.trucks.map(truck => {
+          this.filteredTrucks.push(truck)
+        })
 
-        
       })
       .catch((err) => {
         console.log('error')
@@ -165,7 +168,7 @@ export class MapPageComponent implements AfterViewInit, OnInit {
     console.log(this.searchModel.entry)
     this.getTruckData("search", this.searchModel.entry)
   }
-  resetSearch(){
+  resetSearch() {
     this.clearTrucks()
     this.getTruckData("all", this.searchModel.entry)
   }
@@ -173,9 +176,9 @@ export class MapPageComponent implements AfterViewInit, OnInit {
     this.searchModel.type = type
     console.log(type)
   }
-  onChangeRatingFilter(rating: any){
-    if(rating != "All"){
-    rating = Number(rating)
+  onChangeRatingFilter(rating: any) {
+    if (rating != "All") {
+      rating = Number(rating)
     }
     this.filterState[0].rating = rating
   }
@@ -185,7 +188,7 @@ export class MapPageComponent implements AfterViewInit, OnInit {
 
     this.getFilteredTrucks()
   }
-  priceFilterChange(price: any){
+  priceFilterChange(price: any) {
     console.log(price)
     this.filterState[0].price = price
   }
@@ -199,7 +202,7 @@ export class MapPageComponent implements AfterViewInit, OnInit {
     var newFilter = new Filter
     newFilter.price = null
     newFilter.rating = null
-    
+
     var newFilterArray = new FilterArray
     newFilterArray.price = []
     newFilterArray.rating = []
@@ -208,21 +211,20 @@ export class MapPageComponent implements AfterViewInit, OnInit {
     filterChecker.value = false
     this.updateFilterState(newFilter, newFilterArray, filterChecker)
   }
-  getFilteredTrucks(){
+  getFilteredTrucks() {
     this.filteredTrucks = []
-    this.trucks.map(truck =>{
-      if((truck.price == this.filterState[0].price && truck.rating == this.filterState[0].rating))
-      {this.filteredTrucks.push(truck)}
-      else if(truck.price == this.filterState[0].price && this.filterState[0].rating == "All"){
+    this.trucks.map(truck => {
+      if ((truck.price == this.filterState[0].price && truck.rating == this.filterState[0].rating)) { this.filteredTrucks.push(truck) }
+      else if (truck.price == this.filterState[0].price && this.filterState[0].rating == "All") {
         this.filteredTrucks.push(truck)
       }
-      else if(this.filterState[0].price == "All" && this.filterState[0].rating == truck.rating){
+      else if (this.filterState[0].price == "All" && this.filterState[0].rating == truck.rating) {
         this.filteredTrucks.push(truck)
       }
-      else if(this.filterState[0].price == "All" && this.filterState[0].rating == "All"){
+      else if (this.filterState[0].price == "All" && this.filterState[0].rating == "All") {
         this.filteredTrucks.push(truck)
       }
-      })
-      console.log(this.filteredTrucks.length)
+    })
+    console.log(this.filteredTrucks.length)
   }
 }
