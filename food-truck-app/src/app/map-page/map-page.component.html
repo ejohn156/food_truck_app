@@ -28,7 +28,7 @@
     <option *ngFor="let option of ratingValues">{{option}}</option>
   </select>
   <div *ngFor="let price of priceValues">
-    <input name="price" type="radio" value={{price}} (change)="priceFilterChange($event.target.value)">{{price}}
+    <input class="radio-inline control-label" name="price" type="radio" value={{price}} (change)="priceFilterChange($event.target.value)">{{price}}
   </div>
   <input class="btn btn-success" type="submit">
 </form>
@@ -37,7 +37,15 @@
 </div>
 </div>
 <!-- Map section -->
-<div class="col-md-6"></div>
+<div class="col-md-6">
+    <div *ngIf="!isFiltered; then unfilteredMap else filteredMap"></div>
+    <ng-template #unfilteredMap>
+        <app-map [trucks]=filteredMarkers isLoaded=isLoaded></app-map>
+      </ng-template>
+      <ng-template #filteredMap>
+          <app-map [trucks]=filteredMarkers isLoaded=isLoaded></app-map>
+        </ng-template>
+</div>
 <!--results section -->
 <div class="col-md-3">
 <div *ngIf="!isFiltered; then unfilteredList else filteredList"></div>

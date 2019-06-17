@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-
+import * as mapboxgl from 'mapbox-gl'
 
 @Component({
   selector: 'app-root',
@@ -7,6 +7,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'food-truck-app'
-  
+  map: mapboxgl.Map;
+  static style = 'mapbox://styles/ejohn156/cjx0p7jcw00xw1cnpp75jje08';
 }

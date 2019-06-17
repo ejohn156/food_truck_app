@@ -15,7 +15,8 @@ import {isFilteredReducer} from './store/isFilteredReducer';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { ResultsListComponent } from './components/results-list/results-list.component';
-import { FormSFComponent } from './components/form-sf/form-sf.component'
+import { FormSFComponent } from './components/form-sf/form-sf.component';
+import { MapComponent } from './components/map/map.component'
 
 
 @NgModule({
@@ -27,6 +28,7 @@ import { FormSFComponent } from './components/form-sf/form-sf.component'
     NavbarComponent,
     ResultsListComponent,
     FormSFComponent,
+    MapComponent,
 
   ],
   imports: [

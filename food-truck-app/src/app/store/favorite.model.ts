@@ -5,4 +5,6 @@ export class Favorite {
     rating: number
     website: string
     categories: [Object]
+    lat: number
+    long: number
 }
