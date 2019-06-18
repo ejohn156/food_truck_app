@@ -60,7 +60,9 @@ mapSetup(){
 
 
       });
-      const markers = this.trucks
+      console.log(this.trucks)
+      let markers = []
+      this.trucks.map(truck => markers.push(truck.geoJSON))
       console.log(markers)
       const data = {
         type: 'FeatureCollection',

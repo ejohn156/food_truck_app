@@ -14,6 +14,8 @@ import * as FilterArrayStore from "./../store/filterArrayAction"
 import { isFiltered } from '../store/isFiltered.model'
 import * as IsFilteredStore from './../store/isFilteredAction'
 import {MapboxService} from '../mapbox.service'
+import {Marker} from '../store/marker.model'
+import * as MarkerStore from '../store/markerAction'
 
 @Component({
   selector: 'app-map-page',
@@ -31,6 +33,7 @@ export class MapPageComponent implements AfterViewInit, OnInit {
   filterArrayState: Array<any>
   favorites: Array<any>
   trucks: Array<any>
+  markers: Array<any>
   filteredTrucks = []
   searchEntry: String
   searchTypes = ["search", "all"]
@@ -47,6 +50,7 @@ export class MapPageComponent implements AfterViewInit, OnInit {
     this.store.select('filter').subscribe((state => this.filterState = state))
     this.store.select('filterArray').subscribe((state => this.filterArrayState = state))
     this.store.select('isFiltered').subscribe((state => this.filterChecker = state))
+    this.store.select('marker').subscribe((state => this.markers = state))
     this.setFilter()
     this.priceValues = this.filterArrayState[0].price
     this.ratingValues = this.filterArrayState[0].rating
@@ -141,6 +145,7 @@ export class MapPageComponent implements AfterViewInit, OnInit {
         })
         const unfilteredMarkers = MapboxService.getMarkers(this.trucks);
         this.filteredMarkers = MapboxService.getMarkers(this.filteredTrucks)
+        this.filteredMarkers.map(marker => this.addMarker(marker))
         this.isLoaded = true
       })
       .catch((err) => {
@@ -165,6 +170,17 @@ export class MapPageComponent implements AfterViewInit, OnInit {
   removeTrucks(truck) {
     this.store.dispatch(new TruckStore.RemoveTruck(truck))
   }
+  addMarker(marker) {
+    const newMarker = new Marker
+    newMarker.geoJSON = marker
+    this.store.dispatch(new MarkerStore.AddMarker(newMarker))
+  }
+  removeMarker(marker) {
+    this.store.dispatch(new MarkerStore.RemoveMarker(marker))
+  }
+  clearMarkers() {
+    this.markers.map(marker => this.removeMarker(marker))
+  }
   clearTrucks() {
     this.trucks.map(truck => this.removeTrucks(truck))
   }
@@ -173,11 +189,13 @@ export class MapPageComponent implements AfterViewInit, OnInit {
   }
   onSubmit(f: NgForm) {
     this.clearTrucks()
+    this.clearMarkers()
     console.log(this.searchModel.entry)
     this.getTruckData("search", this.searchModel.entry)
   }
   resetSearch() {
     this.clearTrucks()
+    this.clearMarkers()
     this.getTruckData("all", this.searchModel.entry)
   }
   onChangeType(type: any) {
@@ -191,6 +209,7 @@ export class MapPageComponent implements AfterViewInit, OnInit {
     this.filterState[0].rating = rating
   }
   updateFilter(filter: NgForm) {
+    this.clearMarkers()
     this.filterChecker[0].value = true
     this.isFiltered = this.filterChecker[0]
 
@@ -204,6 +223,9 @@ export class MapPageComponent implements AfterViewInit, OnInit {
     this.filterChecker[0].value = false
     this.isFiltered = this.filterChecker[0]
     this.filteredTrucks = this.trucks
+    this.clearMarkers()
+    this.filteredMarkers = MapboxService.getMarkers(this.filteredTrucks)
+    this.filteredMarkers.map(marker => this.addMarker(marker))
     console.log("clear filter: " + this.isFiltered)
   }
   setFilter() {
@@ -234,5 +256,6 @@ export class MapPageComponent implements AfterViewInit, OnInit {
       }
     })
     this.filteredMarkers = MapboxService.getMarkers(this.filteredTrucks);
+        this.filteredMarkers.map(marker => this.addMarker(marker))
   }
 }

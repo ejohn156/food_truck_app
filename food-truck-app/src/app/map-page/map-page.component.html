@@ -40,10 +40,10 @@
 <div class="col-md-6">
     <div *ngIf="!isFiltered; then unfilteredMap else filteredMap"></div>
     <ng-template #unfilteredMap>
-        <app-map [trucks]=filteredMarkers isLoaded=isLoaded></app-map>
+        <app-map [trucks]=markers isLoaded=isLoaded></app-map>
       </ng-template>
       <ng-template #filteredMap>
-          <app-map [trucks]=filteredMarkers isLoaded=isLoaded></app-map>
+          <app-map [trucks]=markers isLoaded=isLoaded></app-map>
         </ng-template>
 </div>
 <!--results section -->
