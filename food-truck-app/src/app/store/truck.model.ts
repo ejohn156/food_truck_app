@@ -7,4 +7,5 @@ export class Truck {
     categories: [Object]
     lat: number
     long: number
+    isFavorite = false
 }

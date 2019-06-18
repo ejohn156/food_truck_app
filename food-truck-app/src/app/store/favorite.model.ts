@@ -7,4 +7,5 @@ export class Favorite {
     categories: [Object]
     lat: number
     long: number
+    isfavorite = true
 }

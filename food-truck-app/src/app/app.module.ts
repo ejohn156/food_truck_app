@@ -17,6 +17,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { ResultsListComponent } from './components/results-list/results-list.component';
 import { FormSFComponent } from './components/form-sf/form-sf.component';
 import { MapComponent } from './components/map/map.component'
+import {markerReducer} from './store/markerReducer'
 
 
 @NgModule({
@@ -40,7 +41,8 @@ import { MapComponent } from './components/map/map.component'
       trucks: truckReducer, 
       filter: filterReducer, 
       filterArray: filterArrayReducer,
-      isFiltered: isFilteredReducer
+      isFiltered: isFilteredReducer,
+      marker: markerReducer
     }),
     BrowserAnimationsModule,
     // StoreModule.forRoot({trucks: truckReducer})

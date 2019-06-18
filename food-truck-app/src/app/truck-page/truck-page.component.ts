@@ -45,7 +45,7 @@ export class TruckPageComponent implements OnInit, OnChanges {
         this.price = truck.price
         this.website = truck.website
         this.categories = truck.categories
-        this.isFavorite = false
+        this.isFavorite = truck.isFavorite
       }
     })
   
@@ -60,7 +60,7 @@ export class TruckPageComponent implements OnInit, OnChanges {
         this.price = favorite.price
         this.website = favorite.website
         this.categories = favorite.categories
-        this.isFavorite = false
+        this.isFavorite = favorite.isFavorite
       }
     })
   }
