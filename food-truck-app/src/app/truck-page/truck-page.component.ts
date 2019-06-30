@@ -43,7 +43,7 @@ export class TruckPageComponent implements OnInit, OnChanges {
     this.trucks.map(truck => {
       if (truck.id === this.id) {
         console.log(truck)
-        this.truck.id = truck.id
+        this.id = truck.id
         this.name = truck.name
         this.rating = truck.rating
         this.price = truck.price
@@ -114,6 +114,7 @@ export class TruckPageComponent implements OnInit, OnChanges {
     window.alert(truck.name + " has been removed from your favorites")
   }
   createTruckObject(truck) {
+    this.truck = new Truck
     this.truck.id = truck.id
     this.truck.name = truck.name
     this.truck.rating = truck.rating
@@ -122,5 +123,7 @@ export class TruckPageComponent implements OnInit, OnChanges {
     this.truck.categories = truck.categories
     this.truck.isFavorite = truck.isFavorite
     this.truck.image = truck.image
+    this.truck.lat = truck.lat
+    this.truck.long = truck.long
   }
 }

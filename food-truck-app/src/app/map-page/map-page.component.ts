@@ -144,6 +144,8 @@ export class MapPageComponent implements AfterViewInit, OnInit {
         this.trucks.map(truck => {
           this.filteredTrucks.push(truck)
         })
+        console.log(this.trucks)
+        console.log(this.filteredTrucks)
         const unfilteredMarkers = MapboxService.getMarkers(this.trucks);
         this.filteredMarkers = MapboxService.getMarkers(this.filteredTrucks)
         this.filteredMarkers.map(marker => this.addMarker(marker))
@@ -191,7 +193,6 @@ export class MapPageComponent implements AfterViewInit, OnInit {
   onSubmit(f: NgForm) {
     this.clearTrucks()
     this.clearMarkers()
-    console.log(this.searchModel.entry)
     this.getTruckData("search", this.searchModel.entry)
   }
   resetSearch() {
@@ -201,7 +202,6 @@ export class MapPageComponent implements AfterViewInit, OnInit {
   }
   onChangeType(type: any) {
     this.searchModel.type = type
-    console.log(type)
   }
   onChangeRatingFilter(rating: any) {
     if (rating != "All") {
@@ -227,7 +227,6 @@ export class MapPageComponent implements AfterViewInit, OnInit {
     this.clearMarkers()
     this.filteredMarkers = MapboxService.getMarkers(this.filteredTrucks)
     this.filteredMarkers.map(marker => this.addMarker(marker))
-    console.log("clear filter: " + this.isFiltered)
   }
   setFilter() {
     var newFilter = new Filter

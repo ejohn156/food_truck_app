@@ -18,7 +18,7 @@ import { ResultsListComponent } from './components/results-list/results-list.com
 import { FormSFComponent } from './components/form-sf/form-sf.component';
 import { MapComponent } from './components/map/map.component'
 import {markerReducer} from './store/markerReducer';
-import { TruckInfoComponent } from './truck-info/truck-info.component'
+import { TruckInfoComponent } from './components/truck-info/truck-info.component'
 
 
 @NgModule({

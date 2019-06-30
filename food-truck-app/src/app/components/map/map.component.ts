@@ -45,7 +45,7 @@ mapSetup(){
       container: 'map',
       style: AppComponent.style,
       center: [-80.84313, 35.2271], // [lng, lat]
-      zoom: 15, // starting zoom
+      zoom: 13, // starting zoom
       scrollZoom: true,
       
     });
