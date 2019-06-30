@@ -10,7 +10,7 @@ import { Truck } from '../store/truck.model'
   templateUrl: './truck-page.component.html',
   styleUrls: ['./truck-page.component.css']
 })
-export class TruckPageComponent implements OnInit, OnChanges {
+export class TruckPageComponent implements OnInit {
 
   private id: string
   private name: string
@@ -27,15 +27,11 @@ export class TruckPageComponent implements OnInit, OnChanges {
     this.id = this.route.snapshot.params.id
   }
 
-  ngOnChanges(isFavorite: SimpleChanges) {
-    this.checkFavoriteStatus()
-  }
   ngOnInit() {
     this.store.select('favorites').subscribe((state => this.favorites = state))
     this.store.select('trucks').subscribe((state => this.trucks = state))
     this.getTruckInfo(this.id)
     this.getFavInfo(this.id)
-    this.checkFavoriteStatus()
 
   }
 
@@ -71,47 +67,6 @@ export class TruckPageComponent implements OnInit, OnChanges {
         this.createTruckObject(favorite)
       }
     })
-  }
-  favoriteBtn() {
-    var newFavorite = new Favorite
-    newFavorite.id = this.id
-    newFavorite.name = this.name
-    newFavorite.price = this.price
-    newFavorite.rating = this.rating
-    newFavorite.categories = [Object]
-    this.categories.map(category => newFavorite.categories.push(category))
-    newFavorite.website = this.website
-    newFavorite.image = this.image
-    this.addFavorite(newFavorite)
-  }
-  unfavorite() {
-    var newFavorite = new Favorite
-    newFavorite.id = this.id
-    newFavorite.name = this.name
-    newFavorite.price = this.price
-    newFavorite.rating = this.rating
-    newFavorite.categories = [Object]
-    this.categories.map(category => newFavorite.categories.push(category))
-    newFavorite.website = this.website
-    newFavorite.image = this.image
-    this.removeFavorite(newFavorite)
-  }
-  checkFavoriteStatus() {
-    console.log(this.favorites.length)
-    this.favorites.map(favorite => {
-      if (favorite.id === this.id) {
-        this.isFavorite = true
-
-      }
-    })
-  }
-  addFavorite(truck) {
-    this.store.dispatch(new FavoriteStore.AddFavorite(truck))
-    window.alert(truck.name + " has been added to your favorites")
-  }
-  removeFavorite(truck) {
-    this.store.dispatch(new FavoriteStore.RemoveFavorite(truck))
-    window.alert(truck.name + " has been removed from your favorites")
   }
   createTruckObject(truck) {
     this.truck = new Truck

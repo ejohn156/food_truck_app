@@ -76,10 +76,12 @@ mapSetup(){
         type: 'symbol',
         layout: {
           'text-field': '{message}',
-          'text-size': 13,
+          'text-size': 11,
           'text-transform': 'uppercase',
           'icon-image': 'marker-15',
-          'text-offset': [0, 1.5]
+          'text-offset': [0, 1.5],
+          "icon-allow-overlap": true,
+          // "text-allow-overlap": true
         },
         paint: {
           'text-color': '#f16624',
