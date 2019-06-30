@@ -47,7 +47,7 @@
         </ng-template>
 </div>
 <!--results section -->
-<div class="col-md-3">
+<div class="col-md-3 resultsList">
 <div *ngIf="!isFiltered; then unfilteredList else filteredList"></div>
 <ng-template #unfilteredList>
   <app-results-list [trucks]=trucks filtered=isFiltered></app-results-list>

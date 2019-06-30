@@ -1,15 +1,10 @@
 <app-navbar currentPage="truck"></app-navbar>
-<ul>
-  <li>Name: {{name}}</li>
-  <li>Price: {{price}}</li>
-  <li>Rating: {{rating}}</li>
-  <li>Website: {{website}}</li>
-</ul>
-<br>
-<button routerLink="/">Return To Map</button>
-<div *ngIf="!isFavorite">
-<button (click)="favoriteBtn()" routerLink="/favorites">Favorite</button>
-</div>
-<div *ngIf="isFavorite">
-  <button (click)="unfavorite()" routerLink="/map">unfavorite</button>
+<div class="row info">
+  <div class="col-md-2"></div>
+  <div class="col-md-8">
+    <app-truck-info [truck]=truck></app-truck-info>
   </div>
+  
+  <div class="col-md-2">
+  </div>
+</div>

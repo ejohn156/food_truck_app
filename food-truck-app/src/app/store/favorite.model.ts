@@ -4,8 +4,10 @@ export class Favorite {
     price: string
     rating: number
     website: string
-    categories: [Object]
+    categories: Array<any>
     lat: number
     long: number
-    isfavorite = true
+    isFavorite = true
+    image: string
+  newFavorite: any;
 }
