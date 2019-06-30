@@ -76,7 +76,7 @@ mapSetup(){
         type: 'symbol',
         layout: {
           'text-field': '{message}',
-          'text-size': 24,
+          'text-size': 13,
           'text-transform': 'uppercase',
           'icon-image': 'marker-15',
           'text-offset': [0, 1.5]

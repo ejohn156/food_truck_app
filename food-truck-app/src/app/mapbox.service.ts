@@ -21,7 +21,7 @@ export class MapboxService {
         },
         'properties': {
           'message': truck.name,
-          'id': truck.id
+          'id': truck.id,
         }
       }
       geoJson.push(truckGeoJson)

@@ -118,6 +118,7 @@ export class MapPageComponent implements AfterViewInit, OnInit {
             newTruck.website = result.url
             newTruck.lat = result.coordinates.latitude
             newTruck.long = result.coordinates.longitude
+            newTruck.image = result.image_url
             this.addTruck(newTruck)
             if (!this.priceValues.includes(newTruck.price) && !isUndefined(newTruck.price)) {
               this.priceValues.push(newTruck.price)

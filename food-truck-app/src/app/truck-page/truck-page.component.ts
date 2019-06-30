@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import * as FavoriteStore from '../store/action';
 import { Favorite } from '../store/favorite.model';
+import { Truck } from '../store/truck.model'
 
 @Component({
   selector: 'app-truck-page',
@@ -10,7 +11,7 @@ import { Favorite } from '../store/favorite.model';
   styleUrls: ['./truck-page.component.css']
 })
 export class TruckPageComponent implements OnInit, OnChanges {
-  
+
   private id: string
   private name: string
   private rating: number
@@ -18,13 +19,15 @@ export class TruckPageComponent implements OnInit, OnChanges {
   private price: string
   private website: string
   private isFavorite: Boolean
+  image: string
   favorites: Array<any>
   trucks: Array<any>
+  truck: Truck
   constructor(private route: ActivatedRoute, private store: Store<any>) {
     this.id = this.route.snapshot.params.id
   }
 
-  ngOnChanges( isFavorite: SimpleChanges){
+  ngOnChanges(isFavorite: SimpleChanges) {
     this.checkFavoriteStatus()
   }
   ngOnInit() {
@@ -33,22 +36,25 @@ export class TruckPageComponent implements OnInit, OnChanges {
     this.getTruckInfo(this.id)
     this.getFavInfo(this.id)
     this.checkFavoriteStatus()
+
   }
 
   getTruckInfo(id) {
     this.trucks.map(truck => {
       if (truck.id === this.id) {
         console.log(truck)
-        this.id = truck.id
+        this.truck.id = truck.id
         this.name = truck.name
         this.rating = truck.rating
         this.price = truck.price
         this.website = truck.website
         this.categories = truck.categories
         this.isFavorite = truck.isFavorite
+        this.image = truck.image
+        this.createTruckObject(truck)
       }
     })
-  
+    console.log(this.image)
   }
   getFavInfo(id) {
     this.favorites.map(favorite => {
@@ -61,6 +67,8 @@ export class TruckPageComponent implements OnInit, OnChanges {
         this.website = favorite.website
         this.categories = favorite.categories
         this.isFavorite = favorite.isFavorite
+        this.image = favorite.image
+        this.createTruckObject(favorite)
       }
     })
   }
@@ -73,6 +81,7 @@ export class TruckPageComponent implements OnInit, OnChanges {
     newFavorite.categories = [Object]
     this.categories.map(category => newFavorite.categories.push(category))
     newFavorite.website = this.website
+    newFavorite.image = this.image
     this.addFavorite(newFavorite)
   }
   unfavorite() {
@@ -84,6 +93,7 @@ export class TruckPageComponent implements OnInit, OnChanges {
     newFavorite.categories = [Object]
     this.categories.map(category => newFavorite.categories.push(category))
     newFavorite.website = this.website
+    newFavorite.image = this.image
     this.removeFavorite(newFavorite)
   }
   checkFavoriteStatus() {
@@ -91,7 +101,7 @@ export class TruckPageComponent implements OnInit, OnChanges {
     this.favorites.map(favorite => {
       if (favorite.id === this.id) {
         this.isFavorite = true
-        
+
       }
     })
   }
@@ -102,5 +112,15 @@ export class TruckPageComponent implements OnInit, OnChanges {
   removeFavorite(truck) {
     this.store.dispatch(new FavoriteStore.RemoveFavorite(truck))
     window.alert(truck.name + " has been removed from your favorites")
+  }
+  createTruckObject(truck) {
+    this.truck.id = truck.id
+    this.truck.name = truck.name
+    this.truck.rating = truck.rating
+    this.truck.price = truck.price
+    this.truck.website = truck.website
+    this.truck.categories = truck.categories
+    this.truck.isFavorite = truck.isFavorite
+    this.truck.image = truck.image
   }
 }

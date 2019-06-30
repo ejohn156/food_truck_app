@@ -8,4 +8,5 @@ export class Favorite {
     lat: number
     long: number
     isfavorite = true
+    image: string
 }

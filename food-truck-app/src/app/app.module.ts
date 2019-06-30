@@ -17,7 +17,8 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { ResultsListComponent } from './components/results-list/results-list.component';
 import { FormSFComponent } from './components/form-sf/form-sf.component';
 import { MapComponent } from './components/map/map.component'
-import {markerReducer} from './store/markerReducer'
+import {markerReducer} from './store/markerReducer';
+import { TruckInfoComponent } from './truck-info/truck-info.component'
 
 
 @NgModule({
@@ -30,6 +31,7 @@ import {markerReducer} from './store/markerReducer'
     ResultsListComponent,
     FormSFComponent,
     MapComponent,
+    TruckInfoComponent,
 
   ],
   imports: [

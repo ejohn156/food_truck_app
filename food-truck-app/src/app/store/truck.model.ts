@@ -8,4 +8,5 @@ export class Truck {
     lat: number
     long: number
     isFavorite = false
+    image: string
 }
