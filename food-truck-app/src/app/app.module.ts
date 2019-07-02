@@ -18,6 +18,7 @@ import { ResultsListComponent } from './components/results-list/results-list.com
 import { FormSFComponent } from './components/form-sf/form-sf.component';
 import { MapComponent } from './components/map/map.component'
 import {markerReducer} from './store/markerReducer';
+import {favMarkerReducer} from './store/favMarkerReducer'
 import { TruckInfoComponent } from './components/truck-info/truck-info.component'
 
 
@@ -44,7 +45,8 @@ import { TruckInfoComponent } from './components/truck-info/truck-info.component
       filter: filterReducer, 
       filterArray: filterArrayReducer,
       isFiltered: isFilteredReducer,
-      marker: markerReducer
+      marker: markerReducer,
+      favMarker: favMarkerReducer
     }),
     BrowserAnimationsModule,
     // StoreModule.forRoot({trucks: truckReducer})

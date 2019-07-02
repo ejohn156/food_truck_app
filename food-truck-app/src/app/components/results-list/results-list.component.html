@@ -1,14 +1,36 @@
 <div class="card">
   <div class="card-header">
+      <div *ngIf="search; then searchResults else favList"></div>
+      <ng-template #searchResults>
     <h3>Search Results - {{trucks.length}}</h3>
+    </ng-template>
+    <ng-template #favList>
+        <h3>Your Favorite Trucks</h3>
+    </ng-template>
   </div>
   <div class="card-body">
+      <span *ngIf="search">
 <div class="overflow-auto scroll">
-<div class="list-group " *ngFor="let truck of trucks">
+  <div class="list-group " *ngFor="let truck of trucks">
     <a class="list-group-item list-group-item-action" routerLink="/truck/{{truck.id}}" >
-      {{truck.name}}
+      {{truck.name}} 
     </a>
   </div>
 </div>
-</div>
+</span>
+<span *ngIf="!search">
+    <div class="list-group " *ngFor="let truck of trucks">
+      <div class="row">
+        <div class="col-md-8">
+        <a class="list-group-item list-group-item-action" routerLink="/truck/{{truck.id}}" >
+          {{truck.name}} 
+        </a>
+      </div>
+      <div class="col-md-2">
+        <button type="button" class="btn btn-danger" (click)="unfavorite(truck)">unfavorite</button>
+      </div>
+      </div>
+      </div>
+    </span>
+    </div>
 </div>

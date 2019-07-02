@@ -50,10 +50,10 @@
 <div class="col-md-3 resultsList">
 <div *ngIf="!isFiltered; then unfilteredList else filteredList"></div>
 <ng-template #unfilteredList>
-  <app-results-list [trucks]=trucks filtered=isFiltered></app-results-list>
+  <app-results-list [trucks]=trucks [search]=true></app-results-list>
 </ng-template>
 <ng-template #filteredList>
-    <app-results-list [trucks]=filteredTrucks filtered=isFiltered></app-results-list>
+    <app-results-list [trucks]=filteredTrucks [search]=true></app-results-list>
   </ng-template>
 </div>
 </div>
