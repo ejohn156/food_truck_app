@@ -2,7 +2,7 @@
   <div class="card-header">
       <div *ngIf="search; then searchResults else favList"></div>
       <ng-template #searchResults>
-    <h3>Search Results - {{trucks.length}}</h3>
+    <h3>Search Results</h3>
     </ng-template>
     <ng-template #favList>
         <h3>Your Favorite Trucks</h3>
