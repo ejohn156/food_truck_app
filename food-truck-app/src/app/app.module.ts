@@ -19,7 +19,8 @@ import { FormSFComponent } from './components/form-sf/form-sf.component';
 import { MapComponent } from './components/map/map.component'
 import {markerReducer} from './store/markerReducer';
 import {favMarkerReducer} from './store/favMarkerReducer'
-import { TruckInfoComponent } from './components/truck-info/truck-info.component'
+import { TruckInfoComponent } from './components/truck-info/truck-info.component';
+import { FooterComponent } from './components/footer/footer.component'
 
 
 @NgModule({
@@ -33,6 +34,7 @@ import { TruckInfoComponent } from './components/truck-info/truck-info.component
     FormSFComponent,
     MapComponent,
     TruckInfoComponent,
+    FooterComponent,
 
   ],
   imports: [
