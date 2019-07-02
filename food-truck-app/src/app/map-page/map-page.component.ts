@@ -277,7 +277,6 @@ export class MapPageComponent implements AfterViewInit, OnInit {
       }
     }
     else{
-      console.log(this.filterState[0].category)
       truck.categories.map(category => {
         if(category.title == this.filterState[0].category && truck.price == this.filterState[0].price && truck.rating == this.filterState[0].rating){
           console.log("success")
