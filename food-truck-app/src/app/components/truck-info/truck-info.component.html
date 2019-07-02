@@ -5,7 +5,15 @@
       <div class="col-md-8">
         <div class="row">
           <div class="col-md-10">
-    <h1>{{truck.name}}</h1>
+            <div class="row">
+              <div class="col-md-10">
+                  <h1>{{truck.name}}</h1>
+              </div>
+              <div class="col-md-2">
+                  <span *ngIf="isFavorite"><img class="favIcon" src="http://icons.iconarchive.com/icons/custom-icon-design/flatastic-2/256/favorite-icon.png"></span>
+              </div>
+            </div>
+   
   </div>
   <div class="col-md-2">
       <div *ngIf="!isFavorite">

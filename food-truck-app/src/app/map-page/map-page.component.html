@@ -1,5 +1,5 @@
 <app-navbar currentPage="map"></app-navbar>
-<div class="row">
+<div class="row content">
 
 <!-- search form section -->
 <div class="col-md-3">
@@ -24,12 +24,35 @@
 </div>
 <div class="card-body">
 <form #filter="ngForm" (ngSubmit)="updateFilter(f)" novalidate>
+  <div class="row filterSection">
+    <div class="col-md-4">
+  <label for="rating">Rating: </label>
+</div>
+<div class="col-md-8">
   <select name="rating" class="form-control" (change)=onChangeRatingFilter($event.target.value)>
     <option *ngFor="let option of ratingValues">{{option}}</option>
   </select>
+</div>
+</div>
+<div class="row filterSection">
+  <div class="col-md-4">Price:</div>
+  <div class="col-md-8">
   <div *ngFor="let price of priceValues">
     <input class="radio-inline control-label" name="price" type="radio" value={{price}} (change)="priceFilterChange($event.target.value)">{{price}}
   </div>
+  </div>
+</div>
+  <div class="row filterSection">
+      <div class="col-md-4">
+          <label for="rating">Category: </label>
+        </div>
+        <div class="col-md-8">
+          <select name="category" class="form-control" (change)=onChangeCategoryFilter($event.target.value)>
+            <option *ngFor="let option of categoryValues">{{option}}</option>
+          </select>
+        </div>
+  </div>
+
   <input class="btn btn-success" type="submit">
 </form>
 <input class="btn btn-warning reset" (click)="clearFilter()" placeholder="Reset">
@@ -50,10 +73,11 @@
 <div class="col-md-3 resultsList">
 <div *ngIf="!isFiltered; then unfilteredList else filteredList"></div>
 <ng-template #unfilteredList>
-  <app-results-list [trucks]=trucks filtered=isFiltered></app-results-list>
+  <app-results-list [trucks]=trucks [search]=true></app-results-list>
 </ng-template>
 <ng-template #filteredList>
-    <app-results-list [trucks]=filteredTrucks filtered=isFiltered></app-results-list>
+    <app-results-list [trucks]=filteredTrucks [search]=true></app-results-list>
   </ng-template>
 </div>
 </div>
+<app-footer></app-footer>

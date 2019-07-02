@@ -28,6 +28,7 @@ export class MapPageComponent implements AfterViewInit, OnInit {
   isFiltered: Boolean
   priceValues: Array<any>
   ratingValues: Array<any>
+  categoryValues: Array<any>
   searchModel = new Search("", "")
   filterState: Array<any>
   filterArrayState: Array<any>
@@ -54,6 +55,7 @@ export class MapPageComponent implements AfterViewInit, OnInit {
     this.setFilter()
     this.priceValues = this.filterArrayState[0].price
     this.ratingValues = this.filterArrayState[0].rating
+    this.categoryValues = this.filterArrayState[0].categories
     this.isFiltered = this.filterChecker[0].value
     if (this.isFiltered == true) {
       this.getFilteredTrucks()
@@ -103,7 +105,7 @@ export class MapPageComponent implements AfterViewInit, OnInit {
     })
       .then((res) => {
         var matchFound = false
-
+        this.categoryValues = []
         this.ratingValues = []
         this.priceValues = []
         var results = res.data.businesses
@@ -126,26 +128,35 @@ export class MapPageComponent implements AfterViewInit, OnInit {
             if (!this.ratingValues.includes(newTruck.rating)) {
               this.ratingValues.push(newTruck.rating)
             }
+            newTruck.categories.map(category => {
+              if (!this.categoryValues.includes(category.title) && category.alias != "foodtrucks") {
+                this.categoryValues.push(category.title)
+              }
+            })
             if (entry === newTruck.name) {
               matchFound = true
             }
           }
         })
+        
         this.ratingValues.sort()
         this.ratingValues.push("All")
         this.priceValues.push("All")
+        this.categoryValues.push("All")
         this.ratingValues.reverse()
         this.priceValues.reverse()
+        this.categoryValues.reverse()
         this.filterArrayState[0].rating = this.ratingValues
         this.filterArrayState[0].price = this.priceValues
+        this.filterArrayState[0].categories = this.categoryValues
         this.filterState[0].rating = this.ratingValues[0]
         this.filterState[0].price = this.priceValues[0]
+        this.filterState[0].category = this.categoryValues[0]
         this.filteredTrucks = []
+        console.log(this.categoryValues)
         this.trucks.map(truck => {
           this.filteredTrucks.push(truck)
         })
-        console.log(this.trucks)
-        console.log(this.filteredTrucks)
         const unfilteredMarkers = MapboxService.getMarkers(this.trucks);
         this.filteredMarkers = MapboxService.getMarkers(this.filteredTrucks)
         this.filteredMarkers.map(marker => this.addMarker(marker))
@@ -209,6 +220,13 @@ export class MapPageComponent implements AfterViewInit, OnInit {
     }
     this.filterState[0].rating = rating
   }
+  onChangeCategoryFilter(category: any) {
+    if (category != "All") {
+      category = String(category)
+    }
+    this.filterState[0].category = category
+    console.log(this.filterState[0])
+  }
   updateFilter(filter: NgForm) {
     this.clearMarkers()
     this.filterChecker[0].value = true
@@ -232,19 +250,22 @@ export class MapPageComponent implements AfterViewInit, OnInit {
     var newFilter = new Filter
     newFilter.price = null
     newFilter.rating = null
-
+    newFilter.category = null
     var newFilterArray = new FilterArray
     newFilterArray.price = []
     newFilterArray.rating = []
-
+    newFilterArray.categories = []
     var filterChecker = new isFiltered
     filterChecker.value = false
     this.updateFilterState(newFilter, newFilterArray, filterChecker)
   }
   getFilteredTrucks() {
+    
     this.filteredTrucks = []
     this.trucks.map(truck => {
-      if ((truck.price == this.filterState[0].price && truck.rating == this.filterState[0].rating)) { this.filteredTrucks.push(truck) }
+      if(this.filterState[0].category == "All"){
+      if ((truck.price == this.filterState[0].price && truck.rating == this.filterState[0].rating )) 
+      { this.filteredTrucks.push(truck) }
       else if (truck.price == this.filterState[0].price && this.filterState[0].rating == "All") {
         this.filteredTrucks.push(truck)
       }
@@ -254,6 +275,27 @@ export class MapPageComponent implements AfterViewInit, OnInit {
       else if (this.filterState[0].price == "All" && this.filterState[0].rating == "All") {
         this.filteredTrucks.push(truck)
       }
+    }
+    else{
+      truck.categories.map(category => {
+        if(category.title == this.filterState[0].category && truck.price == this.filterState[0].price && truck.rating == this.filterState[0].rating){
+          console.log("success")
+          this.filteredTrucks.push(truck)
+        }
+        if(category.title == this.filterState[0].category && this.filterState[0].price == "All" && this.filterState[0].rating == "All"){
+          console.log("success")
+          this.filteredTrucks.push(truck)
+        }
+        if(category.title == this.filterState[0].category && this.filterState[0].price == "All" && this.filterState[0].rating == truck.rating){
+          console.log("success")
+          this.filteredTrucks.push(truck)
+        }
+        if(category.title == this.filterState[0].category && truck.price == this.filterState[0].price && this.filterState[0].rating == "All"){
+          console.log("success")
+          this.filteredTrucks.push(truck)
+        }
+      })
+    }
     })
     this.filteredMarkers = MapboxService.getMarkers(this.filteredTrucks);
         this.filteredMarkers.map(marker => this.addMarker(marker))

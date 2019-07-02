@@ -26,13 +26,6 @@ export class MapComponent implements OnInit {
 
   ngOnInit() {
     mapboxgl.accessToken = environment.mapbox.accessToken;
-    // this.map = new mapboxgl.Map({
-    //   container: 'map',
-    //   style: AppComponent.style,
-    //   center: [-80.84313, 35.2271], // [lng, lat]
-    //   zoom: 18, // starting zoom
-    //   scrollZoom: true,
-    // });
   }
   ngOnChanges(changes: SimpleChanges){
     console.log(changes)

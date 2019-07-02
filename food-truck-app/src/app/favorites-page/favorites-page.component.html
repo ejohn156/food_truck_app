@@ -1,11 +1,11 @@
 <app-navbar currentPage="favorites"></app-navbar>
-<h1>
-  Favorites Page
-</h1>
-<br>
-<ul *ngFor="let favorite of favorites">
-  <button routerLink="/truck/{{favorite.id}}">
-      {{favorite.name}}
-  </button>
-  <button (click)="unfavorite(favorite)">Unfavorite</button>
-</ul>
+<div class="row">
+  <div class="col-md-1"></div>
+  <div class="col-md-5">
+<app-results-list [trucks]=favorites [markers]=markers [search]=false></app-results-list>
+</div>
+<div class="col-md-5">
+    <app-map [trucks]=markers isLoaded=isLoaded></app-map>
+</div>
+</div>
+<app-footer></app-footer>

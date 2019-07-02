@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import * as FavoriteStore from '../store/action';
 import { Store, select } from '@ngrx/store';
 import { Favorite } from '../store/favorite.model';
+import {FavMarker} from '../store/favMarker.model'
+import * as FavMarkerStore from '../store/favMarkerAction'
+import {MapboxService} from '../mapbox.service'
 @Component({
   selector: 'app-favorites-page',
   templateUrl: './favorites-page.component.html',
@@ -9,17 +12,30 @@ import { Favorite } from '../store/favorite.model';
 })
 export class FavoritesPageComponent implements OnInit {
   favorites: Array<any>
+  favMarkers: Array<any>
+  markers: Array<any>
   constructor(private store: Store<any>) { }
 
   ngOnInit() {
+    
     this.store.select('favorites').subscribe((state => this.favorites = state))
-  }
 
-  removeFavorite(truck) {
-    this.store.dispatch(new FavoriteStore.RemoveFavorite(truck))
-    window.alert(truck.name + " has been removed from your favorites")
+    this.store.select('favMarker').subscribe((state => this.markers = state))
+    this.clearMarkers()
+    this.favMarkers = MapboxService.getMarkers(this.favorites)
+    this.favMarkers.map(marker => 
+      this.addMarker(marker))
+    
   }
-  unfavorite(favorite) {
-    this.removeFavorite(favorite)
+  addMarker(marker) {
+    const newMarker = new FavMarker
+    newMarker.geoJSON = marker
+    this.store.dispatch(new FavMarkerStore.AddFavMarker(newMarker))
+  }
+  removeMarker(marker) {
+    this.store.dispatch(new FavMarkerStore.RemoveFavMarker(marker))
+  }
+  clearMarkers() {
+    this.markers.map(marker => this.removeMarker(marker))
   }
 }
